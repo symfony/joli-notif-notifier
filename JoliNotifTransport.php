@@ -13,9 +13,9 @@ namespace Symfony\Component\Notifier\Bridge\JoliNotif;
 
 use Joli\JoliNotif\DefaultNotifier as JoliNotifier;
 use Joli\JoliNotif\Notification as JoliNotification;
-use Symfony\Component\Notifier\Exception\LogicException;
 use Symfony\Component\Notifier\Exception\RuntimeException;
 use Symfony\Component\Notifier\Exception\UnsupportedMessageTypeException;
+use Symfony\Component\Notifier\Exception\UnsupportedOptionsException;
 use Symfony\Component\Notifier\Message\DesktopMessage;
 use Symfony\Component\Notifier\Message\MessageInterface;
 use Symfony\Component\Notifier\Message\SentMessage;
@@ -51,7 +51,7 @@ final class JoliNotifTransport extends AbstractTransport
         }
 
         if (($options = $message->getOptions()) && !$options instanceof JoliNotifOptions) {
-            throw new LogicException(\sprintf('The "%s" transport only supports an instance of the "%s" as an option class.', __CLASS__, JoliNotifOptions::class));
+            throw new UnsupportedOptionsException(__CLASS__, JoliNotifOptions::class, $options);
         }
 
         $joliNotification = $this->buildJoliNotificationObject($message, $options);
